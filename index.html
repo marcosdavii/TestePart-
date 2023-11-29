@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Count</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+  <h1>Password Count</h1>
+  <div id="result"></div>
+  <button onclick="updatePasswords()">Atualizar Senhas</button>
+
+  <script>
+    async function getCount() {
+      const response = await fetch('/countPasswords');
+      const data = await response.json();
+      document.getElementById('result').innerHTML = `
+    <p>Parte 1: ${data.contagemPart1}</p>
+    <p>Parte 2: ${data.contagemPart2}</p>
+      `;
+    }
+
+
+    async function updatePasswords() {
+      const response = await fetch('/generatePassword?requireExactlyTwoAdjacent=true');
+      const data = await response.json();
+      alert(`Senha gerada: ${data.senha}`);
+      getCount();
+    }
+
+    getCount();
+  </script>
+</body>
+
+</html>
